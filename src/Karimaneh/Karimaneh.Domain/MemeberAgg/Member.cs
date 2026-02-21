@@ -1,4 +1,5 @@
 ﻿using Common.Domain.BaseModels;
+using Common.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
