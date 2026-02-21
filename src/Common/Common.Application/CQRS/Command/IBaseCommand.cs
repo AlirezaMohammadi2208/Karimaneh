@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Common.Application.CQRS.Command
 {
-    public interface IBaseCommand : IBase
+    public interface IBaseCommand : IRequest
     {
     }
 }
