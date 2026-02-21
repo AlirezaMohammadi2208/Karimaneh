@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Common/">
+    <Project Path="src/Common/Common.Application/Common.Application.csproj" />
+    <Project Path="src/Common/Common.Domain/Common.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/Karimaneh/">
+    <Project Path="src/Karimaneh/Karimaneh.Application/Karimaneh.Application.csproj" />
+    <Project Path="src/Karimaneh/Karimaneh.Domain/Karimaneh.Domain.csproj" />
+    <Project Path="src/Karimaneh/Karimaneh.Infrastructure/Karimaneh.Infrastructure.csproj" />
+    <Project Path="src/Karimaneh/Karimaneh.WebApi/Karimaneh.WebApi.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>
