@@ -1,8 +1,6 @@
-﻿using Common.Domain.BaseModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Transactions;
+﻿using Ardalis.GuardClauses;
+using Common.Domain.BaseModels;
+using Karimaneh.Domain.TransactionAgg.Events;
 
 namespace Karimaneh.Domain.TransactionAgg
 {
@@ -11,19 +9,29 @@ namespace Karimaneh.Domain.TransactionAgg
     /// </summary>
     public class Transaction : BaseEntity, IAggregateRoot
     {
-        public Transaction(Guid debitWalletId, Guid creditWalletId,
-            decimal amount, TransactionType transactionType, DateTime createdAt,
-            string document)
+        private Transaction(
+             Guid debitWalletId,
+             Guid creditWalletId,
+             decimal amount,
+             string document,
+             TransactionType type)
         {
+            Guard.Against.NullOrEmpty(debitWalletId, nameof(debitWalletId));
+            Guard.Against.NullOrEmpty(creditWalletId, nameof(creditWalletId));
+            Guard.Against.NegativeOrZero(amount, nameof(amount));
+            Guard.Against.NullOrEmpty(document, nameof(document));
+            Guard.Against.EnumOutOfRange(type, nameof(type));
+
             DebitWalletId = debitWalletId;
             CreditWalletId = creditWalletId;
             Amount = amount;
-            TransactionType = transactionType;
-            CreatedAt = createdAt;
             Document = document;
+            TransactionType = type;
         }
 
-        private Transaction() { } //EF
+#pragma warning disable CS8618 // Required by Entity Framework
+        private Transaction() { }
+
         public Guid DebitWalletId { get; private set; }
         public Guid CreditWalletId { get; private set; }
         /// <summary>
@@ -35,23 +43,48 @@ namespace Karimaneh.Domain.TransactionAgg
         /// </summary>
         public TransactionType TransactionType { get; private set; }
 
-        public TransactionStatus TransactionStatus { get; set; }
+        public TransactionStatus TransactionStatus { get; private set; } = TransactionStatus.Pending;
 
         /// <summary>
         /// زمان تراکنش
         /// </summary>
-        public DateTime CreatedAt { get; private set; }
+        public DateTime CreatedAt { get; private set; } = DateTime.Now;
         /// <summary>
-        /// اسم فایل یند تراکنش
+        /// اسم فایل سند تراکنش
         /// </summary>
         public string Document { get; private set; }
+
+        public static Transaction Create(
+        Guid debitWalletId,
+        Guid creditWalletId,
+        decimal amount,
+        string document,
+        TransactionType type,
+        Guid userId)
+        {
+            Guard.Against.NullOrEmpty(userId, nameof(userId));
+
+            var transaction = new Transaction(debitWalletId, creditWalletId, amount, document, type);
+            transaction.AddDomainEvent(new TransactionCreatedEvent(transaction, userId));
+            return transaction;
+        }
+
+        public void Confirm()
+        {
+            TransactionStatus = TransactionStatus.Confirmed;
+        }
     }
     public enum TransactionType
     {
-
+        LoanPayment,
+        InstallmentPayment,
+        SubscriptionPayment
     }
     public enum TransactionStatus
     {
+        Pending,
+        Confirmed,
+        Rejected
     }
 
 }

@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Karimaneh.Infrastructure\Karimaneh.Infrastructure.csproj" />
   </ItemGroup>
 
