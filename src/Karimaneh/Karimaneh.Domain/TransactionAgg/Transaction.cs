@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Karimaneh.Domain.WalletAgg
+namespace Karimaneh.Domain.TransactionAgg
 {
     /// <summary>
     /// تراکنش
     /// </summary>
-    public class Transaction : BaseEntity
+    public class Transaction : BaseEntity, IAggregateRoot
     {
         public Transaction(Guid debitWalletId, Guid creditWalletId,
             decimal amount, TransactionType transactionType, DateTime createdAt,
