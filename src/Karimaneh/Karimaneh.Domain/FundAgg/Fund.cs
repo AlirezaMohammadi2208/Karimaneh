@@ -1,4 +1,5 @@
 ﻿using Common.Domain.BaseModels;
+using Common.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -58,7 +59,6 @@ namespace Karimaneh.Domain.FundAgg
         /// <summary>
         /// اطلاعات بانکی
         /// </summary>
-        //TODO : ساخت VO بانک اینفو
         public BankInfo BankInfo { get; private set; }
     }
     public enum GuaranteeType
