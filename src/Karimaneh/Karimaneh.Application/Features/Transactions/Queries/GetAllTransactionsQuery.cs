@@ -1,9 +1,10 @@
-﻿using FluentValidation;
+﻿using Common.Application.CQRS.Query;
+using FluentValidation;
 using Karimaneh.Application.Features.Transactions.DTOs;
 
 namespace Karimaneh.Application.Features.Transactions.Queries
 {
-    public class GetAllTransactionsQuery : IQuery<IEnumerable<TransactionResponseDto>>
+    public class GetAllTransactionsQuery : IBaseQuery<IEnumerable<TransactionResponseDto>>
     {
         public int Limit { get; set; }
         public int Offset { get; set; }

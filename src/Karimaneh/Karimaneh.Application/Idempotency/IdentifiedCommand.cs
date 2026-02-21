@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using Karimaneh.Application.Features.Transactions.Commands;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Karimaneh.Application.Idempotency

@@ -1,4 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using Karimaneh.Application.Features.Identities.DTOs;
+using Karimaneh.Application.Features.Transactions.Commands;
+using Karimaneh.Application.Interfaces;
+using Karimaneh.Domain.Entities;
+using Karimaneh.Infrastructure.Audit;
+using Karimaneh.Infrastructure.Idempotency;
+using Karimaneh.Infrastructure.Identity;
+using Karimaneh.Infrastructure.Persistence;
+using Karimaneh.Infrastructure.Security;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Karimaneh.WebApi.Extensions.ServiceCollection
@@ -32,17 +42,16 @@ namespace Karimaneh.WebApi.Extensions.ServiceCollection
             //services.AddScoped<IRequestRepository, RequestRepository>();
             //services.AddScoped<IWalletRepository, WalletRepository>();
 
-            //services.AddScoped<IIdentityService, IdentityService>();
-            //services.AddScoped<IJwtTokenService, JwtTokenService>();
-            //services.AddScoped<IRefreshTokenService, RefreshTokenService>();
-            //services.AddScoped<IAuditLogService, AuditLogService>();
-            //services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-            //services.AddScoped<IRequestManager, RequestManager>();
+            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            services.AddScoped<IAuditLogService, AuditLogService>();
+            services.AddScoped<IRequestManager, RequestManager>();
 
-            //services.AddAutoMapper(cfg =>
-            //cfg.AddMaps(typeof(CreateTransactionCommand).Assembly));
+            services.AddAutoMapper(cfg =>
+            cfg.AddMaps(typeof(CreateTransactionCommand).Assembly));
 
-            //services.AddValidatorsFromAssemblyContaining<LoginRequestDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<LoginRequestDtoValidator>();
 
             return services;
         }

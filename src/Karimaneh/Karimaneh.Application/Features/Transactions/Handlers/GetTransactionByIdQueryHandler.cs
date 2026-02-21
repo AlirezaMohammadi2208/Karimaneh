@@ -1,28 +1,15 @@
 ﻿using AutoMapper;
+using Common.Application.CQRS.Query;
 using Karimaneh.Application.Features.Transactions.DTOs;
 using Karimaneh.Application.Features.Transactions.Queries;
-using LoanManagementSystem.Application.Features.Transactions.Specifications;
-using LoanManagementSystem.Application.Interfaces;
-using LoanManagementSystem.Domain.Aggregates.TransactionAggregate;
 
-namespace LoanManagementSystem.Application.Features.Transactions.Handlers
+namespace Karimaneh.Application.Features.Transactions.Handlers
 {
-    public class GetTransactionByIdQueryHandler : IQueryHandler<GetTransactionByIdQuery, TransactionResponseDto>
+    public class GetTransactionByIdQueryHandler : IBaseQueryHandler<GetTransactionByIdQuery, TransactionResponseDto>
     {
-        private readonly ITransactionRepository _transactionRepository;
-        private readonly IMapper _mapper;
-
-        public GetTransactionByIdQueryHandler(ITransactionRepository transactionRepository, IMapper mapper)
+        public Task<TransactionResponseDto> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
         {
-            _transactionRepository = transactionRepository;
-            _mapper = mapper;
-        }
-
-        public async Task<TransactionResponseDto> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
-        {
-            var spec = new TransactionGetAllSpec();
-            var transaction = await _transactionRepository.GetByIdAsync(request.Id, spec, cancellationToken);
-            return _mapper.Map<TransactionResponseDto>(transaction);
+            throw new NotImplementedException();
         }
     }
 }

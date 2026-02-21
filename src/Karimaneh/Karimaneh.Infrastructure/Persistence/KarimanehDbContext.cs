@@ -33,7 +33,7 @@ namespace Karimaneh.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new MemberConfiguration());
             modelBuilder.ApplyConfiguration(new RequestConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
-            modelBuilder.ApplyConfiguration(new WalletAccountConfiguration());
+            modelBuilder.ApplyConfiguration(new WalletConfiguration());
         }
         public DbSet<Fund> Funds { get; set; } = default!;
         public DbSet<Installment> Installments { get; set; } = default!;

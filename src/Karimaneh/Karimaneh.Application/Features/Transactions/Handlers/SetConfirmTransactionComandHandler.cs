@@ -1,29 +1,13 @@
-﻿using Karimaneh.Application.Features.Transactions.Commands;
-using LoanManagementSystem.Application.Features.Transactions.Specifications;
-using LoanManagementSystem.Application.Interfaces;
-using LoanManagementSystem.Domain.Aggregates.TransactionAggregate;
+﻿using Common.Application.CQRS.Command;
+using Karimaneh.Application.Features.Transactions.Commands;
 
-namespace LoanManagementSystem.Application.Features.Requests.Handlers
+namespace Karimaneh.Application.Features.Transactions.Handlers
 {
-    public class SetConfirmTransactionComandHandler : ICommandHandler<SetConfirmTransactionComand>
+    public class SetConfirmTransactionComandHandler : IBaseCommandHandler<SetConfirmTransactionComand>
     {
-        private readonly ITransactionRepository _transactionRepository;
-
-        public SetConfirmTransactionComandHandler(ITransactionRepository transactionRepository)
+        public Task Handle(SetConfirmTransactionComand request, CancellationToken cancellationToken)
         {
-            _transactionRepository = transactionRepository;
-        }
-
-        public async Task Handle(SetConfirmTransactionComand request, CancellationToken cancellationToken)
-        {
-            var transaction = await _transactionRepository.GetByIdAsync(request.Id, new TransactionGetAllSpec(), cancellationToken);
-
-            transaction.DebitWalletAccount.Debit(transaction.Amount);
-            transaction.CreditWalletAccount.Credit(transaction.Amount);
-
-            transaction.Confirm();
-
-            await _transactionRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            throw new NotImplementedException();
         }
     }
 }

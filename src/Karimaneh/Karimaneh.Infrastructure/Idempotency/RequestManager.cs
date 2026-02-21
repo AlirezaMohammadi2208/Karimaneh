@@ -1,4 +1,5 @@
-﻿using Karimaneh.Application.Interfaces;
+﻿using Common.Domain.Exceptions;
+using Karimaneh.Application.Interfaces;
 using Karimaneh.Infrastructure.Persistence;
 
 namespace Karimaneh.Infrastructure.Idempotency
@@ -25,9 +26,7 @@ namespace Karimaneh.Infrastructure.Idempotency
             var exists = await ExistAsync(id);
 
             var request = exists ?
-                //TODO: Fix This
-                //throw new DomainException($"Request with {id} already exists") :
-                throw new ArgumentException($"Request with {id} already exists") :
+                throw new DomainException($"Request with {id} already exists") :
                 new ClientRequest()
                 {
                     Id = id,

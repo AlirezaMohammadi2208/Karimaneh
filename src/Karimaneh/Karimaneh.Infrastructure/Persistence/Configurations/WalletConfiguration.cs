@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Karimaneh.Infrastructure.Persistence.Configurations
 {
-    public class WalletAccountConfiguration : IEntityTypeConfiguration<Wallet>
+    public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
     {
         public void Configure(EntityTypeBuilder<Wallet> builder)
         {

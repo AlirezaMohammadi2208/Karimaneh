@@ -1,4 +1,5 @@
 ﻿using Karimaneh.Application.Extensions;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Karimaneh.Application.Behaviors

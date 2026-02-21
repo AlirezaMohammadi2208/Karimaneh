@@ -1,4 +1,5 @@
-﻿using Karimaneh.Domain.Entities;
+﻿using Karimaneh.Application.Features.Identities.DTOs;
+using Karimaneh.Domain.Entities;
 using System.Security.Claims;
 
 namespace Karimaneh.Application.Interfaces

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Common.Application.Exceptions;
+using Common.Domain.Exceptions;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
 
@@ -37,16 +39,15 @@ namespace Karimaneh.WebApi.Middlewares
 
             switch (exception)
             {
-                //TODO: Fix This
-                //case NotFoundException:
-                //    statusCode = HttpStatusCode.NotFound;
-                //    message = exception.Message;
-                //    break;
+                case NotFoundException:
+                    statusCode = HttpStatusCode.NotFound;
+                    message = exception.Message;
+                    break;
 
-                //case ConflictException:
-                //    statusCode = HttpStatusCode.Conflict;
-                //    message = exception.Message;
-                //    break;
+                case ConflictException:
+                    statusCode = HttpStatusCode.Conflict;
+                    message = exception.Message;
+                    break;
 
                 case ArgumentException:
                     statusCode = HttpStatusCode.BadRequest;

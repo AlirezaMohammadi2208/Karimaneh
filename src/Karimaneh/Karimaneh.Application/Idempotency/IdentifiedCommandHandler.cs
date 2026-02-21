@@ -1,14 +1,11 @@
 ﻿using Karimaneh.Application.Extensions;
+using Karimaneh.Application.Features.Transactions.Commands;
+using Karimaneh.Application.Interfaces;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Karimaneh.Application.Idempotency
 {
-    /// <summary>
-    /// Provides a base implementation for handling duplicate request and ensuring idempotent updates, in the cases where
-    /// a requestid sent by client is used to detect duplicate requests.
-    /// </summary>
-    /// <typeparam name="T">Type of the command handler that performs the operation if request is not duplicated</typeparam>
-    /// <typeparam name="R">Return value of the inner command handler</typeparam>
     public abstract class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<T, R>, R>
         where T : IRequest<R>
     {
@@ -26,19 +23,8 @@ namespace Karimaneh.Application.Idempotency
             _requestManager = requestManager;
             _logger = logger;
         }
-
-        /// <summary>
-        /// Creates the result value to return if a previous request was found
-        /// </summary>
-        /// <returns></returns>
         protected abstract R CreateResultForDuplicateRequest();
 
-        /// <summary>
-        /// This method handles the command. It just ensures that no other request exists with the same ID, and if this is the case
-        /// just enqueues the original inner command.
-        /// </summary>
-        /// <param name="message">IdentifiedCommand which contains both original command & request ID</param>
-        /// <returns>Return value of inner command or default value if request same ID was found</returns>
         public async Task<R> Handle(IdentifiedCommand<T, R> message, CancellationToken cancellationToken)
         {
             var alreadyExists = await _requestManager.ExistAsync(message.Id);
