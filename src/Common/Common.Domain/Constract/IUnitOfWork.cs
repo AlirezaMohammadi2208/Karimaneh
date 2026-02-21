@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Common.Domain.Constract
 {
-    public interface IUnitOfWork 
+    public interface IUnitOfWork : IDisposable
     {
-        Task<bool> SaveChnageAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
     }
 }
