@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Transactions;
 
 namespace Karimaneh.Domain.TransactionAgg
 {
@@ -33,6 +34,9 @@ namespace Karimaneh.Domain.TransactionAgg
         /// تایپ تراکنش 
         /// </summary>
         public TransactionType TransactionType { get; private set; }
+
+        public TransactionStatus TransactionStatus { get; set; }
+
         /// <summary>
         /// زمان تراکنش
         /// </summary>
@@ -46,4 +50,8 @@ namespace Karimaneh.Domain.TransactionAgg
     {
 
     }
+    public enum TransactionStatus
+    {
+    }
+
 }
