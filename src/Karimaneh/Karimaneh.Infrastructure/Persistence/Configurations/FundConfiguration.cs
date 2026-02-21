@@ -8,7 +8,7 @@ namespace Karimaneh.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Fund> builder)
         {
-
+            builder.OwnsOne(o => o.BankInfo, a => { });
         }
     }
 }

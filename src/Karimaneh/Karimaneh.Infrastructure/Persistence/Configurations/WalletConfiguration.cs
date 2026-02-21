@@ -9,6 +9,8 @@ namespace Karimaneh.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Wallet> builder)
         {
 
+            builder.Property(t => t.Balance)
+                   .HasPrecision(18, 2);
         }
     }
 }

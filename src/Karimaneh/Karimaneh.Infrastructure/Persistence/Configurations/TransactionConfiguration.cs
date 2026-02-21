@@ -8,7 +8,8 @@ namespace Karimaneh.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Transaction> builder)
         {
-
+            builder.Property(t => t.Amount)
+                 .HasPrecision(18, 2);
         }
     }
 }

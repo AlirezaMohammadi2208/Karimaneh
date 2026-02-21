@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Karimaneh.Domain\Karimaneh.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Wallets\Commands\" />
+  </ItemGroup>
+
 </Project>
