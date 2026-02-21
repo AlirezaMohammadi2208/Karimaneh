@@ -42,7 +42,7 @@ namespace Karimaneh.Domain.TransactionAgg
         /// </summary>
         public DateTime CreatedAt { get; private set; }
         /// <summary>
-        /// اسم فایل یند تراکنش
+        /// اسم فایل سند تراکنش
         /// </summary>
         public string Document { get; private set; }
     }

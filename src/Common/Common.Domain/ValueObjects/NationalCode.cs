@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -7,14 +8,30 @@ namespace Common.Domain.ValueObjects
 {
     public class NationalCode
     {
+        private NationalCode() { } //EF
         public NationalCode(string value)
         {
+            NationalCodeValidation(value);
             Value = value;
         }
 
         public string Value { get; private set; }
 
-        public bool IsValid(string nationalId)
+        public void NationalCodeValidation(string nationalCode)
+        {
+            if (!string.IsNullOrWhiteSpace(nationalCode))
+                throw new InvalidValueException("کد ملی نمیتواند خالی باشد");
+            if (nationalCode.Length != 10)
+                throw new InvalidValueException("کد ملی باید 10 رقم باشد");
+            if (!nationalCode.All(char.IsDigit))
+                throw new InvalidValueException("کد ملی فقط باید عدد باشد");
+            if (nationalCode.Distinct().Count() == 1)
+                throw new InvalidValueException("کد ملی نامعتبر است");
+            if (!IsNationalCodeValid(nationalCode))
+                throw new InvalidValueException("کد ملی نامعتبر است");
+        }
+      
+        private bool IsNationalCodeValid(string nationalId)
         {
             var isNumber = Regex.IsMatch(nationalId, @"^\d+$");
             if (isNumber == false)
