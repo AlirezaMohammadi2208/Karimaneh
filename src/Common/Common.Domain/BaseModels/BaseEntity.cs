@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,16 +7,20 @@ namespace Common.Domain.BaseModels
 {
     public abstract class BaseEntity
     {
-        private readonly List<BaseDomainEvent> _domainEvents = new List<BaseDomainEvent>();
-        public IReadOnlyCollection<BaseDomainEvent> DomainEvents => _domainEvents;
         public Guid Id { get; set; }
-        public void AddDomainEvent(BaseDomainEvent domainEvent)
+
+        private List<INotification> _domainEvents;
+        public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
+
+        public void AddDomainEvent(INotification eventItem)
         {
-            _domainEvents.Add(domainEvent);
+            _domainEvents = _domainEvents ?? new List<INotification>();
+            _domainEvents.Add(eventItem);
         }
-        public void RemoveDomainEvent(BaseDomainEvent domainEvent)
+
+        public void RemoveDomainEvent(INotification eventItem)
         {
-            _domainEvents.Remove(domainEvent);
+            _domainEvents?.Remove(eventItem);
         }
 
         public void ClearDomainEvents()

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Karimaneh.Application.Features.Transactions.Specifications
+﻿namespace Karimaneh.Application.Features.Transactions.Specifications
 {
     public class TransactionGetAllSpec : TransactionBaseSpec
     {

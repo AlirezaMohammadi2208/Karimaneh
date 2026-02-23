@@ -8,7 +8,8 @@ namespace Karimaneh.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Member> builder)
         {
-
+            builder.OwnsOne(o => o.BankInfo, a => { });
+            builder.OwnsOne(o => o.NationalCode, a => { });
         }
     }
 }
