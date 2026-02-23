@@ -3,9 +3,9 @@ using Karimaneh.Application.Features.Transactions.Commands;
 
 namespace Karimaneh.Application.Features.Transactions.Handlers
 {
-    public class SetConfirmTransactionComandHandler : IBaseCommandHandler<SetConfirmTransactionComand>
+    public class SetConfirmTransactionComandHandler : IBaseCommandHandler<SetConfirmTransactionCommand>
     {
-        public Task Handle(SetConfirmTransactionComand request, CancellationToken cancellationToken)
+        public Task Handle(SetConfirmTransactionCommand request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

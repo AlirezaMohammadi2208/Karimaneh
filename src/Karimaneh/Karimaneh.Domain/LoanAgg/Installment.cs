@@ -1,4 +1,5 @@
 ﻿using Common.Domain.BaseModels;
+using Common.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Karimaneh.Domain.LoanAgg
         public Installment(Guid loanId, DateTime dueDate, 
             decimal amount, InstallmentStatus installmentStatus)
         {
+            ValueGuard(amount);
             LoanId = loanId;
             DueDate = dueDate;
             Amount = amount;
@@ -36,9 +38,13 @@ namespace Karimaneh.Domain.LoanAgg
         /// وضعیت قسط
         /// </summary>
         public InstallmentStatus InstallmentStatus { get; private set; }
-    }
-    public enum InstallmentStatus
-    {
 
+        #region Validation
+        public void ValueGuard(decimal amount)
+        {
+            if (amount <= 0)
+                throw new DomainException("مقدار قسط نمیتواند کمتر از صفر باشد");
+        }
+        #endregion
     }
 }
