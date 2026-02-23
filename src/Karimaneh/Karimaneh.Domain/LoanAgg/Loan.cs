@@ -1,4 +1,5 @@
 ﻿using Common.Domain.BaseModels;
+using Common.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Karimaneh.Domain.LoanAgg
     /// <summary>
     /// کلاس وام
     /// </summary>
-    public class Loan : BaseEntity , IAggregateRoot
+    public partial class Loan : BaseEntity, IAggregateRoot
     {
         private Loan() //EF
         {
@@ -17,11 +18,12 @@ namespace Karimaneh.Domain.LoanAgg
         public Loan(DateTime startDate, decimal amount, int installmentCount,
             Guid requestId, LoanStatus loanStatus)
         {
+            ValueGuard(amount, installmentCount);
             StartDate = startDate;
             Amount = amount;
             InstallmentCount = installmentCount;
             RequestId = requestId;
-            LoanStatus = loanStatus;
+            Status = loanStatus;
         }
         /// <summary>
         /// زمان شروع شدن وام
@@ -39,12 +41,19 @@ namespace Karimaneh.Domain.LoanAgg
         /// <summary>
         /// وضعیت وام
         /// </summary>
-        public LoanStatus LoanStatus { get; private set; }
+        public LoanStatus Status { get; private set; }
         private readonly List<Installment> _installments = new();
         public IReadOnlyCollection<Installment> Instalments => _installments;
-    }
-    public enum LoanStatus
-    {
 
+        #region Validation
+        public void ValueGuard(decimal amount, int installmentCount)
+        {
+            if (amount <= 0)
+                throw new DomainException("مقدار وام نمیتواند کمتر از صفر باشد");
+            if (installmentCount <= 0)
+                throw new DomainException("تعداد اقساط وام نمیتواند کمتر از صفر باشد");
+        }
+
+        #endregion
     }
 }

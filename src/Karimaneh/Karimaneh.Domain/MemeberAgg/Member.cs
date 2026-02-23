@@ -1,4 +1,5 @@
 ﻿using Common.Domain.BaseModels;
+using Common.Domain.Exceptions;
 using Common.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Karimaneh.Domain.MemeberAgg
             Guid walletId, DebtStatus debtStatus, decimal debtAmount, decimal depositeBalance,
             decimal totalRecivedLoanAmount)
         {
+            ValueGuard(firstName, lastName, fatherName, debtAmount, depositeBalance, totalRecivedLoanAmount);
             FirstName = firstName;
             LastName = lastName;
             NationalCode = nationalCode;
@@ -79,9 +81,22 @@ namespace Karimaneh.Domain.MemeberAgg
         /// </summary>
         public decimal TotalRecivedLoanAmount { get; private set; }
 
-    }
-    public enum DebtStatus
-    {
 
+        #region Validation
+        public void ValueGuard(string firstName, string lastName,
+            string fatherName, decimal debtAmount, decimal depositeBalance,
+            decimal totalRecivedLoanAmount)
+        {
+            if (!string.IsNullOrWhiteSpace(firstName))
+                throw new DomainException("نام نمیتواند خالی باشد");
+            if (!string.IsNullOrWhiteSpace(lastName))
+                throw new DomainException("نام خانوادگی نمیتواند خالی باشد");
+            if (!string.IsNullOrWhiteSpace(fatherName))
+                throw new DomainException("نام پدر نمیتواند خالی باشد");
+            if (debtAmount < 0 || depositeBalance < 0 || totalRecivedLoanAmount < 0)
+                throw new DomainException("نمیتواند کمتر از صفر باشد");
+
+        }
+        #endregion
     }
 }
