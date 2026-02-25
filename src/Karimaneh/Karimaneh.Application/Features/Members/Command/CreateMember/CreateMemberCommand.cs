@@ -9,7 +9,7 @@ namespace Karimaneh.Application.Features.Members.Command.CreateMember
     public record CreateMemberCommand(string fullName
         , string NationalCode, string FatherName, string ShebaNumber
         , string AccountNumber, string CardNumber, string AvatarName,
-        bool LoanRequest, Guid UserId) : IBaseCommand
+        bool LoanRequest, Guid UserId , string phoneNumber) : IBaseCommand
     {
         //TODO : FormFile for avatar 
     }

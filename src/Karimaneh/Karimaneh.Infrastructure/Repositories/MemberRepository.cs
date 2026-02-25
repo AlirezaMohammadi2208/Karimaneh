@@ -24,5 +24,10 @@ namespace Karimaneh.Infrastructure.Repositories
         {
             await _context.AddAsync(member);
         }
+
+        public async Task<Member?> GetMemberById(Guid memberId)
+        {
+            return await _context.Members.FirstOrDefaultAsync(x => x.Id == memberId);
+        }
     }
 }
