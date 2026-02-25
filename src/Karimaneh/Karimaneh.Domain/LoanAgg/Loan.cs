@@ -46,7 +46,7 @@ namespace Karimaneh.Domain.LoanAgg
         public IReadOnlyCollection<Installment> Instalments => _installments;
 
         #region Validation
-        public void ValueGuard(decimal amount, int installmentCount)
+        private void ValueGuard(decimal amount, int installmentCount)
         {
             if (amount <= 0)
                 throw new DomainException("مقدار وام نمیتواند کمتر از صفر باشد");

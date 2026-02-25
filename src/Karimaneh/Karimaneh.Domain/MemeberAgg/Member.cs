@@ -1,26 +1,27 @@
 ﻿using Common.Domain.BaseModels;
 using Common.Domain.Exceptions;
 using Common.Domain.ValueObjects;
+using Karimaneh.Domain.MemeberAgg.Evenet;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Karimaneh.Domain.MemeberAgg
 {
     /// <summary>
     /// اعضا
     /// </summary>
-    public class Member : BaseEntity , IAggregateRoot
+    public class Member : BaseEntity, IAggregateRoot
     {
-        public Member(string firstName, string lastName, NationalCode nationalCode,
-            string fatherName, BankInfo bankInfo, string avatarName, bool loanRequest, 
-            Guid walletId, DebtStatus debtStatus, decimal debtAmount, decimal depositeBalance,
-            decimal totalRecivedLoanAmount)
+        private Member(string fullName, NationalCode nationalCode,
+            string fatherName, BankInfo bankInfo, string avatarName, bool loanRequest,
+            Guid walletId, DebtStatus debtStatus)
         {
-            ValueGuard(firstName, lastName, fatherName, debtAmount, depositeBalance, totalRecivedLoanAmount);
-            FirstName = firstName;
-            LastName = lastName;
+            ValueGuard(fullName, fatherName);
+            FullName = fullName;
             NationalCode = nationalCode;
             FatherName = fatherName;
             BankInfo = bankInfo;
@@ -28,24 +29,13 @@ namespace Karimaneh.Domain.MemeberAgg
             LoanRequest = loanRequest;
             WalletId = walletId;
             DebtStatus = debtStatus;
-            DebtAmount = debtAmount;
-            DepositeBalance = depositeBalance;
-            TotalRecivedLoanAmount = totalRecivedLoanAmount;
         }
 
         private Member() { }//EF
         /// <summary>
         /// اسم
         /// </summary>
-        public string FirstName { get; private set; }
-        /// <summary>
-        /// فامیلی
-        /// </summary>
-        public string LastName { get; private set; }
-        //TODO : Create National Code VO
-        /// <summary>
-        /// کد ملی
-        /// </summary>
+        public string FullName { get; private set; }
         public NationalCode NationalCode { get; private set; }
         /// <summary>
         /// نام پدر
@@ -69,34 +59,47 @@ namespace Karimaneh.Domain.MemeberAgg
         /// </summary>
         public DebtStatus DebtStatus { get; private set; }
         /// <summary>
+        /// فعال بودن عضو
+        /// </summary>
+        public bool MembersStatus { get; private set; }
+        /// <summary>
         /// مقدار بدهی
         /// </summary>
-        public decimal DebtAmount { get; private set; }
+        public decimal DebtAmount { get; private set; } = 0;
         /// <summary>
         /// موجودی سپرده
         /// </summary>
-        public decimal DepositeBalance { get; private set; }
+        public decimal DepositeBalance { get; private set; } = 0;
         /// <summary>
         /// مبلغ کل وام های گرفته شده
         /// </summary>
-        public decimal TotalRecivedLoanAmount { get; private set; }
+        public decimal TotalRecivedLoanAmount { get; private set; } = 0;
 
-
-        #region Validation
-        public void ValueGuard(string firstName, string lastName,
-            string fatherName, decimal debtAmount, decimal depositeBalance,
-            decimal totalRecivedLoanAmount)
+        public static Member Create(string fullName, NationalCode nationalCode,
+            string fatherName, BankInfo bankInfo, string avatarName, bool loanRequest,
+            Guid walletId, DebtStatus debtStatus, Guid userId)
         {
-            if (!string.IsNullOrWhiteSpace(firstName))
+            var member = new Member(fullName, nationalCode, fatherName
+                , bankInfo, avatarName, loanRequest, walletId, DebtStatus.NotHave);
+            member.AddDomainEvent(new MemberCreatedEvent(userId, member));
+            return member;
+        }
+        public void ChangeStatus(bool memberStatus)
+        {
+            
+        }
+        #region Validation
+        private void ValueGuard(string fullName,
+            string fatherName)
+        {
+            if (string.IsNullOrWhiteSpace(fullName))
                 throw new DomainException("نام نمیتواند خالی باشد");
-            if (!string.IsNullOrWhiteSpace(lastName))
-                throw new DomainException("نام خانوادگی نمیتواند خالی باشد");
-            if (!string.IsNullOrWhiteSpace(fatherName))
+            if (string.IsNullOrWhiteSpace(fatherName))
                 throw new DomainException("نام پدر نمیتواند خالی باشد");
-            if (debtAmount < 0 || depositeBalance < 0 || totalRecivedLoanAmount < 0)
-                throw new DomainException("نمیتواند کمتر از صفر باشد");
+
 
         }
         #endregion
     }
+    
 }

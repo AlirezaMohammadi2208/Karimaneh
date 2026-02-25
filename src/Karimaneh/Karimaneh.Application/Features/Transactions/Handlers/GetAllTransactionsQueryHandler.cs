@@ -45,8 +45,7 @@ namespace Karimaneh.Application.Features.Transactions.Handlers
 
                     payer = new PayerDto
                     {
-                        FirstName = member.FirstName,
-                        LastName = member.LastName,
+                        FullName = member.FullName,
                         PhoneNumber = "" //TODO: Fix This
                     };
                 }
@@ -54,8 +53,7 @@ namespace Karimaneh.Application.Features.Transactions.Handlers
                 {
                     payer = new PayerDto
                     {
-                        FirstName = "Fund",
-                        LastName = "Fund",
+                        FullName = "Fund",
                         PhoneNumber = "Fund"
                     };
                 }

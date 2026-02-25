@@ -17,9 +17,10 @@ namespace Common.Domain.ValueObjects
 
         public string Value { get; private set; }
 
+        #region Validation
         public void NationalCodeValidation(string nationalCode)
         {
-            if (!string.IsNullOrWhiteSpace(nationalCode))
+            if (string.IsNullOrWhiteSpace(nationalCode))
                 throw new InvalidValueException("کد ملی نمیتواند خالی باشد");
             if (nationalCode.Length != 10)
                 throw new InvalidValueException("کد ملی باید 10 رقم باشد");
@@ -30,7 +31,7 @@ namespace Common.Domain.ValueObjects
             if (!IsNationalCodeValid(nationalCode))
                 throw new InvalidValueException("کد ملی نامعتبر است");
         }
-      
+
         private bool IsNationalCodeValid(string nationalId)
         {
             var isNumber = Regex.IsMatch(nationalId, @"^\d+$");
@@ -56,5 +57,6 @@ namespace Common.Domain.ValueObjects
 
             return sum < 2 && lastNumber == sum || sum >= 2 && lastNumber == 11 - sum;
         }
+        #endregion
     }
 }

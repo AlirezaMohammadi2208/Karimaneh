@@ -19,5 +19,10 @@ namespace Karimaneh.Infrastructure.Repositories
         {
             return await _context.Members.FirstOrDefaultAsync(x => x.WalletId == walletId, cancellationToken);
         }
+
+        public async Task AddAsync(Member member, CancellationToken cancellationToken)
+        {
+            await _context.AddAsync(member);
+        }
     }
 }

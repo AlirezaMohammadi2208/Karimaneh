@@ -1,6 +1,12 @@
 ﻿using Common.Domain.BaseModels;
+using Common.Domain.Exceptions;
+using Karimaneh.Domain.RequestAgg.Enum;
+using Karimaneh.Domain.RequestAgg.Events;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using System.Security.AccessControl;
 using System.Text;
 
 namespace Karimaneh.Domain.RequestAgg
@@ -12,15 +18,15 @@ namespace Karimaneh.Domain.RequestAgg
     {
         private Request() { } //EF
 
-        public Request(Guid memberId, decimal amount, DateTime requestDate,
-            DateTime? confirmDate, string description, RequestStatus requestStatus)
+        private Request(Guid memberId, decimal amount, 
+             string description)
         {
+            ValueGuard(amount, description);
             MemberId = memberId;
             Amount = amount;
-            RequestDate = requestDate;
-            ConfirmDate = confirmDate;
+           
             Description = description;
-            RequestStatus = requestStatus;
+         
         }
 
         public Guid MemberId { get; private set; }
@@ -31,7 +37,7 @@ namespace Karimaneh.Domain.RequestAgg
         /// <summary>
         /// تایم درخواست 
         /// </summary>
-        public DateTime RequestDate { get; private set; }
+        public DateTime RequestDate { get; private set; } = DateTime.Now;
         /// <summary>
         /// تاریخ تایید 
         /// </summary>
@@ -43,12 +49,34 @@ namespace Karimaneh.Domain.RequestAgg
         /// <summary>
         /// وضعیت درخواست
         /// </summary>
-        public RequestStatus RequestStatus { get; private set; }
+        public RequestStatus RequestStatus { get; private set; } = RequestStatus.Pending;
         private readonly List<Guarantor> _guarantors = new();
         public IReadOnlyCollection<Guarantor> Guarantors => _guarantors;
-    }
-    public enum RequestStatus
-    {
 
+        public static Request Create(Guid memberId, decimal amount, 
+             string description, Guid userId)
+        {
+            var request = new Request(memberId, amount
+                , description);
+            request.AddDomainEvent(new RequestCreatedEvent(request, userId));
+            return request;
+        }
+        public void AddGuarantors(List<Guarantor> guarantors)
+        {
+            _guarantors.AddRange(guarantors);
+        }
+        
+
+
+
+        #region Validation
+        private void ValueGuard(decimal amount, string description)
+        {
+            if (amount <= 0)
+                throw new DomainException("مبلغ درخواستی وام نمیتواند کمتر از صفر باشد");
+            if (string.IsNullOrWhiteSpace(description))
+                throw new DomainException("علت درخواست وام نمیتواند خالی باشد");
+        }
+        #endregion 
     }
 }

@@ -7,5 +7,6 @@ namespace Karimaneh.Domain.RequestAgg.Repository
 {
     public interface IRequestRepository : IBaseRepository<Request>
     {
+        Task AddAsync(Request request , CancellationToken cancellationToken = default);
     }
 }

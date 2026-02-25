@@ -30,7 +30,7 @@ namespace Karimaneh.Domain.TransactionAgg
         }
 
 #pragma warning disable CS8618 // Required by Entity Framework
-        private Transaction() { }
+        private Transaction() { } //EF
 
         public Guid DebitWalletId { get; private set; }
         public Guid CreditWalletId { get; private set; }

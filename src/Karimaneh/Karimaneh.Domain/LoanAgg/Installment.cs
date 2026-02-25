@@ -40,7 +40,7 @@ namespace Karimaneh.Domain.LoanAgg
         public InstallmentStatus InstallmentStatus { get; private set; }
 
         #region Validation
-        public void ValueGuard(decimal amount)
+        private void ValueGuard(decimal amount)
         {
             if (amount <= 0)
                 throw new DomainException("مقدار قسط نمیتواند کمتر از صفر باشد");

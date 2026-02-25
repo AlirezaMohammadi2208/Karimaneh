@@ -127,14 +127,14 @@ namespace Karimaneh.Infrastructure.Persistence.Migrations
                     b.Property<int>("InstallmentCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("LoanStatus")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("RequestId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -164,15 +164,14 @@ namespace Karimaneh.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LoanRequest")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MembersStatus")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("TotalRecivedLoanAmount")

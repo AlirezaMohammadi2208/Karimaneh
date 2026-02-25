@@ -8,7 +8,7 @@ using Karimaneh.Domain.WalletAgg.Repository;
 
 namespace Karimaneh.Application.Features.Transactions.Handlers
 {
-    public class SetConfirmTransactionComandHandler : IBaseCommandHandler<SetConfirmTransactionCommand>
+    public class SetConfirmTransactionComandHandler : IBaseCommandHandler<SetConfirmTransactionComand>
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IWalletRepository _walletRepository;

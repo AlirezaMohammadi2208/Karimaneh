@@ -1,4 +1,6 @@
 ﻿using Common.Domain.BaseModels;
+using Common.Domain.Exceptions;
+using Karimaneh.Domain.TicketAgg.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,16 +13,13 @@ namespace Karimaneh.Domain.TicketAgg
     public class Ticket : BaseEntity , IAggregateRoot
     {
         public Ticket(string subject, string body, Priority priority,
-            Guid memberId, DateTime sendDate, TicketStatus ticketStatus,
-            string? responseBody)
+            Guid memberId)
         {
+            ValueGuard(subject , body);
             Subject = subject;
             Body = body;
             Priority = priority;
             MemberId = memberId;
-            SendDate = sendDate;
-            TicketStatus = ticketStatus;
-            ResponseBody = responseBody;
         }
 
         private Ticket() { } //EF
@@ -40,22 +39,28 @@ namespace Karimaneh.Domain.TicketAgg
         /// <summary>
         /// تاریخ ارسال 
         /// </summary>
-        public DateTime SendDate { get; private set; }
+        public DateTime SendDate { get; private set; } = DateTime.UtcNow;
         /// <summary>
         /// وضعیت تیکت
         /// </summary>
-        public TicketStatus TicketStatus { get; private set; }
+        public TicketStatus TicketStatus { get; private set; } = TicketStatus.Pending;
         /// <summary>
         /// پاسخ تیکت
         /// </summary>
         public string? ResponseBody { get; private set; }
-    }
-    public enum Priority
-    {
 
-    }
-    public enum TicketStatus
-    {
+        //public static Ticket Create()
+        //{
 
+        //}
+        #region Vallidation
+        private void ValueGuard(string subject , string body )
+        {
+            if (string.IsNullOrWhiteSpace(subject))
+                throw new DomainException("موضوع تیکت نمیتواند خالی باشد");
+            if (string.IsNullOrWhiteSpace(body))
+                throw new DomainException("پیام تیکت نمیتواند خالی باشد");
+        }
+        #endregion
     }
 }

@@ -58,7 +58,7 @@ namespace Common.Domain.ValueObjects
         }
         public void ShebaNumberValidation(string shebaNumber)
         {
-            if (!string.IsNullOrWhiteSpace(shebaNumber))
+            if (string.IsNullOrWhiteSpace(shebaNumber))
                 throw new InvalidValueException("شماره شبا نمیتواند خالی باشد");
             shebaNumber = shebaNumber.Replace(" ", "").Replace("-", "").ToUpper();
             if (!shebaNumber.StartsWith("IR"))

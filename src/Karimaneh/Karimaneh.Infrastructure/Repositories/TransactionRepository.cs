@@ -35,4 +35,5 @@ namespace Karimaneh.Infrastructure.Repositories
             return await queryable.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
     }
+
 }

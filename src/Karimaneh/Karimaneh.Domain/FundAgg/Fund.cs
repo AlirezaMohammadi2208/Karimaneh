@@ -2,6 +2,7 @@
 using Common.Domain.BaseModels;
 using Common.Domain.Exceptions;
 using Common.Domain.ValueObjects;
+using Karimaneh.Domain.FundAgg.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -67,7 +68,7 @@ namespace Karimaneh.Domain.FundAgg
         public BankInfo BankInfo { get; private set; }
 
         #region Validation
-        public void ValueGuard(int maxConcurrentLoans, decimal minLoanAmount,
+        private void ValueGuard(int maxConcurrentLoans, decimal minLoanAmount,
             decimal maxLoanAmount, decimal memberShipFee, int installmentCount)
         {
             if (maxConcurrentLoans <= 0 || maxConcurrentLoans > 5)

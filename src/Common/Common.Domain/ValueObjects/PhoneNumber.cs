@@ -18,7 +18,7 @@ namespace Common.Domain.ValueObjects
         public string Value { get; private set; }
         public void PhoneNumberValidation(string phoneNumber)
         {
-            if (!string.IsNullOrWhiteSpace(phoneNumber))
+            if (string.IsNullOrWhiteSpace(phoneNumber))
                 throw new InvalidValueException("شماره موبایل نباید خالی باشد");
             phoneNumber = phoneNumber.Trim();
             if (!Regex.IsMatch(phoneNumber, @"^09\d{9}$"))

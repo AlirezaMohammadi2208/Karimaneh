@@ -1,4 +1,6 @@
 ﻿using Common.Domain.BaseModels;
+using Common.Domain.Exceptions;
+using Karimaneh.Domain.MessageAgg.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,10 +10,11 @@ namespace Karimaneh.Domain.MessageAgg
     /// <summary>
     /// پیام
     /// </summary>
-    public class Message : BaseEntity , IAggregateRoot
+    public class Message : BaseEntity, IAggregateRoot
     {
         public Message(Guid memberId, string body, DateTime sendDate, SeenStatus seenStatus)
         {
+            ValueGuard(body);
             MemberId = memberId;
             Body = body;
             SendDate = sendDate;
@@ -32,9 +35,10 @@ namespace Karimaneh.Domain.MessageAgg
         /// وضعیت بازدید
         /// </summary>
         public SeenStatus SeenStatus { get; private set; }
-    }
-    public enum SeenStatus
-    {
-
+        private void ValueGuard(string body)
+        {
+            if (string.IsNullOrWhiteSpace(body))
+                throw new DomainException("متن پیام نمیتواند خالی باشد");
+        }
     }
 }
