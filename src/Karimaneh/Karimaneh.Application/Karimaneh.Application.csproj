@@ -18,8 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Members\Query\" />
-    <Folder Include="Features\Requests\Command\" />
-    <Folder Include="Features\Requests\Query\" />
+    <Folder Include="Features\Requests\Query\GetRequestById\" />
     <Folder Include="Features\Wallets\Commands\" />
   </ItemGroup>
 
