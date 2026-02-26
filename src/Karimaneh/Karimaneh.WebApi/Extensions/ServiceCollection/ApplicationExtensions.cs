@@ -3,6 +3,8 @@ using Karimaneh.Application.Features.Identities.DTOs;
 using Karimaneh.Application.Features.Transactions.Commands;
 using Karimaneh.Application.Interfaces;
 using Karimaneh.Domain.Entities;
+using Karimaneh.Domain.FundAgg.Repository;
+using Karimaneh.Domain.LoanAgg.Repository;
 using Karimaneh.Domain.MemeberAgg.Repository;
 using Karimaneh.Domain.RequestAgg.Repository;
 using Karimaneh.Domain.TransactionAgg.Repository;
@@ -43,8 +45,8 @@ namespace Karimaneh.WebApi.Extensions.ServiceCollection
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IWalletRepository, WalletRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
-            //services.AddScoped<IFundRepository, FundRepository>();
-            //services.AddScoped<ILoanRepository, LoanRepository>();
+            services.AddScoped<IFundRepository, FundRepository>();
+            services.AddScoped<ILoanRepository, LoanRepository>();
             services.AddScoped<IRequestRepository, RequestRepository>();
 
             services.AddScoped<IIdentityService, IdentityService>();

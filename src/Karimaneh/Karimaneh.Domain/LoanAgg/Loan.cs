@@ -1,7 +1,9 @@
 ﻿using Common.Domain.BaseModels;
 using Common.Domain.Exceptions;
+using Karimaneh.Domain.LoanAgg.Events;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Karimaneh.Domain.LoanAgg
@@ -15,20 +17,19 @@ namespace Karimaneh.Domain.LoanAgg
         {
         }
 
-        public Loan(DateTime startDate, decimal amount, int installmentCount,
-            Guid requestId, LoanStatus loanStatus)
+        public Loan(DateOnly startDate, decimal amount, int installmentCount,
+            Guid requestId)
         {
             ValueGuard(amount, installmentCount);
             StartDate = startDate;
             Amount = amount;
             InstallmentCount = installmentCount;
             RequestId = requestId;
-            Status = loanStatus;
         }
         /// <summary>
         /// زمان شروع شدن وام
         /// </summary>
-        public DateTime StartDate { get; private set; }
+        public DateOnly StartDate { get; private set; }
         /// <summary>
         /// مبلغ وام
         /// </summary>
@@ -44,6 +45,38 @@ namespace Karimaneh.Domain.LoanAgg
         public LoanStatus Status { get; private set; }
         private readonly List<Installment> _installments = new();
         public IReadOnlyCollection<Installment> Instalments => _installments;
+
+        public static Loan Create(
+            DateOnly startDate,
+            decimal amount,
+            int installmentCount,
+            Guid requestId,
+            Guid userId)
+        {
+            var loan = new Loan(startDate, amount, installmentCount, requestId);
+            loan.AddDomainEvent(new LoanCreatedEvent(loan, userId));
+            return loan;
+        }
+
+        public void CreateLoanInstallments(Guid userId, decimal profitRate = 0)
+        {
+            if (InstallmentCount <= 0)
+                throw new DomainException("تعداد اقساط نمیتواند صفر یا زیر صفر باشد.");
+
+            var totalWithProfit = Amount + (Amount * profitRate / 100m);
+            var baseInstallment = Math.Floor(totalWithProfit / InstallmentCount);
+            var remainder = totalWithProfit - (baseInstallment * InstallmentCount);
+
+            for (int i = 1; i <= InstallmentCount; i++)
+            {
+                var installmentAmount = baseInstallment;
+
+                if (i == InstallmentCount)
+                    installmentAmount += remainder;
+
+                _installments.Add(Installment.Create(Id, installmentAmount, StartDate.AddMonths(i), userId));
+            }
+        }
 
         #region Validation
         private void ValueGuard(decimal amount, int installmentCount)

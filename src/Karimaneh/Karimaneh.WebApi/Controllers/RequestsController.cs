@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Karimaneh.Application.Features.Requests.CreateRequest;
+using Karimaneh.Application.Features.Requests.Command.ConfirmRequest;
 using Karimaneh.Application.Features.Requests.DTOs;
 using Karimaneh.Application.Features.Requests.Mapping;
 using Karimaneh.WebApi.Extensions;
@@ -31,6 +31,19 @@ namespace Karimaneh.WebApi.Controllers
             if (result)
                 return Ok();
             return BadRequest();
+        }
+
+        // PUT: api/Requests/5/confirm
+        [HttpPut("{id}/confirm")]
+        public async Task<IActionResult> PutRequestConfirm(Guid id, SetConfirmAppReqRequest dto, CancellationToken cancellationToken)
+        {
+            var command = _mapper.Map<ConfirmRequestCommand>(dto);
+            command.UserId = User.GetUserId();
+            command.RequestId = id;
+
+            await _mediator.Send(command, cancellationToken);
+
+            return NoContent();
         }
     }
 }

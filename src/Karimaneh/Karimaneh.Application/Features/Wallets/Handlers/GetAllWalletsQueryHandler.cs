@@ -20,7 +20,7 @@ namespace Karimaneh.Application.Features.Wallets.Handlers
 
         public async Task<IEnumerable<WalletResponseDto>> Handle(GetAllWalletsQuery request, CancellationToken cancellationToken)
         {
-            var spec = new WalletGetAllSpec();
+            var spec = new WalletGetAllSpec(request.Limit, request.Offset);
             var wallets = await _walletRepository.GetAllAsync(spec, cancellationToken);
             return _mapper.Map<IEnumerable<WalletResponseDto>>(wallets);
         }

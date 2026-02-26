@@ -29,7 +29,7 @@ namespace Karimaneh.Application.Features.Transactions.Handlers
 
         public async Task<IEnumerable<TransactionResponseDto>> Handle(GetAllTransactionsQuery request, CancellationToken cancellationToken)
         {
-            var spec = new TransactionGetAllSpec();
+            var spec = new TransactionGetAllSpec(request.Limit, request.Offset);
             var transactions = await _transactionRepository.GetAllAsync(spec, cancellationToken);
 
             var result = await Task.WhenAll(transactions.Select(async x =>

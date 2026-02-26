@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Karimaneh.Application.Features.Requests.Command.ConfirmRequest;
 using Karimaneh.Application.Features.Requests.Command.CreateRequest;
 using Karimaneh.Application.Features.Requests.DTOs;
 using System;
@@ -12,6 +13,8 @@ namespace Karimaneh.Application.Features.Requests.Mapping
         public RequesProfile()
         {
             CreateMap<RequestCommandDto, CreateRequestCommand>();
+            CreateMap<SetConfirmAppReqRequest, ConfirmRequestCommand>();
+
         }
     }
 }

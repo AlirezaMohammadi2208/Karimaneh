@@ -2,6 +2,7 @@
 {
     public enum InstallmentStatus
     {
-
+        Paid,
+        NotPiad
     }
 }

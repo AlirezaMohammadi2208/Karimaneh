@@ -1,7 +1,9 @@
 ﻿using Common.Domain.BaseModels;
 using Common.Domain.Exceptions;
+using Karimaneh.Domain.LoanAgg.Events;
 using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using System.Text;
 
 namespace Karimaneh.Domain.LoanAgg
@@ -13,23 +15,21 @@ namespace Karimaneh.Domain.LoanAgg
     {
         private Installment() //EF
         {
-            
+
         }
-        public Installment(Guid loanId, DateTime dueDate, 
-            decimal amount, InstallmentStatus installmentStatus)
+        public Installment(Guid loanId, decimal amount, DateOnly dueDate)
         {
             ValueGuard(amount);
             LoanId = loanId;
             DueDate = dueDate;
             Amount = amount;
-            InstallmentStatus = installmentStatus;
         }
 
         public Guid LoanId { get; private set; }
         /// <summary>
         /// تاریخ سر رسید قسط
         /// </summary>
-        public DateTime DueDate { get; private set; }
+        public DateOnly DueDate { get; private set; }
         /// <summary>
         /// مبلغ قسط
         /// </summary>
@@ -37,7 +37,19 @@ namespace Karimaneh.Domain.LoanAgg
         /// <summary>
         /// وضعیت قسط
         /// </summary>
-        public InstallmentStatus InstallmentStatus { get; private set; }
+        public InstallmentStatus InstallmentStatus { get; private set; } = InstallmentStatus.NotPiad;
+
+        public static Installment Create(Guid loanId, decimal amount, DateOnly dueDate, Guid userId)
+        {
+            var installment = new Installment(loanId, amount, dueDate);
+            installment.AddDomainEvent(new InstallmentCreatedEvent(installment, userId));
+            return installment;
+        }
+
+        public void Payment(Guid transactionId)
+        {
+            InstallmentStatus = InstallmentStatus.Paid;
+        }
 
         #region Validation
         private void ValueGuard(decimal amount)
