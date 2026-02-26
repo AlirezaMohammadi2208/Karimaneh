@@ -33,5 +33,10 @@ namespace Karimaneh.Infrastructure.Repositories
             queryable = SpecificationEvaluator<Fund>.GetQuery(queryable, spec);
             return await queryable.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
+
+        public Fund Update(Fund fund)
+        {
+            return _context.Funds.Update(fund).Entity;
+        }
     }
 }

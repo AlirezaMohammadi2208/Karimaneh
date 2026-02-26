@@ -8,7 +8,7 @@ namespace Karimaneh.Application.Features.Requests.Specifications
     {
         protected RequestBaseSpec()
         {
-
+            AddInclude(x => x.Guarantors);
         }
     }
 }

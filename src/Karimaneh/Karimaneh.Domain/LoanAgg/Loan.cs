@@ -18,13 +18,14 @@ namespace Karimaneh.Domain.LoanAgg
         }
 
         public Loan(DateOnly startDate, decimal amount, int installmentCount,
-            Guid requestId)
+            Guid requestId, Guid memberId)
         {
             ValueGuard(amount, installmentCount);
             StartDate = startDate;
             Amount = amount;
             InstallmentCount = installmentCount;
             RequestId = requestId;
+            MemberId = memberId;
         }
         /// <summary>
         /// زمان شروع شدن وام
@@ -42,6 +43,8 @@ namespace Karimaneh.Domain.LoanAgg
         /// <summary>
         /// وضعیت وام
         /// </summary>
+
+        public Guid MemberId { get; private set; }
         public LoanStatus Status { get; private set; }
         private readonly List<Installment> _installments = new();
         public IReadOnlyCollection<Installment> Instalments => _installments;
@@ -51,9 +54,10 @@ namespace Karimaneh.Domain.LoanAgg
             decimal amount,
             int installmentCount,
             Guid requestId,
-            Guid userId)
+            Guid userId,
+            Guid memberId)
         {
-            var loan = new Loan(startDate, amount, installmentCount, requestId);
+            var loan = new Loan(startDate, amount, installmentCount, requestId, memberId);
             loan.AddDomainEvent(new LoanCreatedEvent(loan, userId));
             return loan;
         }

@@ -31,8 +31,8 @@ namespace Common.Domain.ValueObjects
                 throw new InvalidValueException("شماره کارت باید 16 رقم باشد");
             if (!cardNumber.All(char.IsDigit))
                 throw new InvalidValueException("شماره کارت فقط باید عدد باشد");
-            if (IsValidCardNumber(cardNumber))
-                throw new InvalidValueException("شماره کارت نامعتبر است");
+            //if (IsValidCardNumber(cardNumber))
+            //    throw new InvalidValueException("شماره کارت نامعتبر است");
         }
         private bool IsValidCardNumber(string cardNumber)
         {

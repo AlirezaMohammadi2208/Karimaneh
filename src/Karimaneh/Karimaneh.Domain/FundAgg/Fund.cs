@@ -3,9 +3,7 @@ using Common.Domain.BaseModels;
 using Common.Domain.Exceptions;
 using Common.Domain.ValueObjects;
 using Karimaneh.Domain.FundAgg.Enum;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Karimaneh.Domain.FundAgg.Events;
 
 namespace Karimaneh.Domain.FundAgg
 {
@@ -67,6 +65,30 @@ namespace Karimaneh.Domain.FundAgg
         /// </summary>
         public BankInfo BankInfo { get; private set; }
 
+        public Fund Edit(
+            int maxConcurrentLoans,
+            bool hasNoOverDueDebt,
+            decimal minLoanAmount,
+            decimal maxLoanAmount,
+            decimal memberShipFee,
+            int installmentCount,
+            GuaranteeType guaranteeType,
+            BankInfo bankInfo,
+            Guid userId,
+            string oldValue)
+        {
+            MaxConcurrentLoans = maxConcurrentLoans;
+            HasNoOverDueDebt = hasNoOverDueDebt;
+            MinLoanAmount = minLoanAmount;
+            MaxLoanAmount = maxLoanAmount;
+            MemberShipFee = memberShipFee;
+            InstallmentCount = installmentCount;
+            GuaranteeType = guaranteeType;
+            BankInfo = bankInfo;
+
+            AddDomainEvent(new FundUpdatedEvent(this, userId, oldValue));
+            return this;
+        }
         #region Validation
         private void ValueGuard(int maxConcurrentLoans, decimal minLoanAmount,
             decimal maxLoanAmount, decimal memberShipFee, int installmentCount)

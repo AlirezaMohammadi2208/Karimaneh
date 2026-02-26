@@ -1,16 +1,16 @@
 ﻿using Common.Domain.ValueObjects;
 using Karimaneh.Domain.MemeberAgg;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Karimaneh.Application.Features.Members.DTOs
 {
     public class MemberResponseDto
     {
+        public Guid Id { get; set; }
         public string FullName { get; set; }
         public NationalCode NationalCode { get; set; }
         public string FatherName { get; set; }
+        public PhoneNumber PhoneNumber { get; set; }
+        public bool MemberStatus { get; set; }
         public BankInfo BankInfo { get; set; }
         public string AvatarName { get; set; }
         public bool LoanRequest { get; set; }
@@ -19,6 +19,5 @@ namespace Karimaneh.Application.Features.Members.DTOs
         public decimal DebtAmount { get; set; } = 0;
         public decimal DepositeBalance { get; set; } = 0;
         public decimal TotalRecivedLoanAmount { get; set; } = 0;
-
     }
 }

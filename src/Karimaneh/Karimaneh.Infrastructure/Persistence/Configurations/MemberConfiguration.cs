@@ -11,7 +11,16 @@ namespace Karimaneh.Infrastructure.Persistence.Configurations
             builder.OwnsOne(o => o.BankInfo, a => { });
             builder.OwnsOne(o => o.PhoneNumber, a => { });
             builder.OwnsOne(o => o.NationalCode, a => { });
-            
+
+            builder.Property(t => t.DebtAmount)
+                 .HasPrecision(18, 2);
+
+            builder.Property(t => t.DepositeBalance)
+                 .HasPrecision(18, 2);
+
+            builder.Property(t => t.TotalRecivedLoanAmount)
+                 .HasPrecision(18, 2);
+
         }
     }
 }

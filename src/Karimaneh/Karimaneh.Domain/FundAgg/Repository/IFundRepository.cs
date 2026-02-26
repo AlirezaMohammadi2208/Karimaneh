@@ -11,5 +11,6 @@ namespace Karimaneh.Domain.FundAgg.Repository
         Task<Fund> AddAsync(Fund fund, CancellationToken cancellationToken = default);
         Task<Fund?> GetByIdAsync(Guid id, ISpecification<Fund> spec, CancellationToken cancellationToken = default);
         Task<IEnumerable<Fund>> GetAllAsync(ISpecification<Fund> spec, CancellationToken cancellationToken = default);
+        Fund Update(Fund fund);
     }
 }

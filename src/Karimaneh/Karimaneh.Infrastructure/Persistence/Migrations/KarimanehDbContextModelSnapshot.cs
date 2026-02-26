@@ -74,12 +74,15 @@ namespace Karimaneh.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("MaxLoanAmount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("MemberShipFee")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("MinLoanAmount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("WalletId")
@@ -97,6 +100,7 @@ namespace Karimaneh.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateOnly>("DueDate")
@@ -122,10 +126,14 @@ namespace Karimaneh.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("InstallmentCount")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RequestId")
                         .HasColumnType("uniqueidentifier");
@@ -152,12 +160,14 @@ namespace Karimaneh.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("DebtAmount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("DebtStatus")
                         .HasColumnType("int");
 
                     b.Property<decimal>("DepositeBalance")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("FatherName")
@@ -171,10 +181,11 @@ namespace Karimaneh.Infrastructure.Persistence.Migrations
                     b.Property<bool>("LoanRequest")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("MembersStatus")
+                    b.Property<bool>("MemberStatus")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("TotalRecivedLoanAmount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("WalletId")
@@ -238,6 +249,7 @@ namespace Karimaneh.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("ConfirmDate")

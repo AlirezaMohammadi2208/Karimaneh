@@ -2,12 +2,6 @@
 using Common.Domain.Exceptions;
 using Karimaneh.Domain.RequestAgg.Enum;
 using Karimaneh.Domain.RequestAgg.Events;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using System.Security.AccessControl;
-using System.Text;
 
 namespace Karimaneh.Domain.RequestAgg
 {
@@ -18,15 +12,15 @@ namespace Karimaneh.Domain.RequestAgg
     {
         private Request() { } //EF
 
-        private Request(Guid memberId, decimal amount, 
+        private Request(Guid memberId, decimal amount,
              string description)
         {
             ValueGuard(amount, description);
             MemberId = memberId;
             Amount = amount;
-           
+
             Description = description;
-         
+
         }
 
         public Guid MemberId { get; private set; }
@@ -53,7 +47,7 @@ namespace Karimaneh.Domain.RequestAgg
         private readonly List<Guarantor> _guarantors = new();
         public IReadOnlyCollection<Guarantor> Guarantors => _guarantors;
 
-        public static Request Create(Guid memberId, decimal amount, 
+        public static Request Create(Guid memberId, decimal amount,
              string description, Guid userId)
         {
             var request = new Request(memberId, amount
@@ -65,7 +59,14 @@ namespace Karimaneh.Domain.RequestAgg
         {
             _guarantors.AddRange(guarantors);
         }
-        
+        public void Confirm()
+        {
+            RequestStatus = RequestStatus.Confirmed;
+        }
+        public void Reject()
+        {
+            RequestStatus = RequestStatus.Rejected;
+        }
 
 
 

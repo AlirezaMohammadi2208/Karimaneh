@@ -1,4 +1,5 @@
-﻿using Common.Domain.BaseModels;
+﻿using Ardalis.GuardClauses;
+using Common.Domain.BaseModels;
 using Common.Domain.Exceptions;
 using Common.Domain.ValueObjects;
 using Karimaneh.Domain.MemeberAgg.Evenet;
@@ -63,7 +64,7 @@ namespace Karimaneh.Domain.MemeberAgg
         /// <summary>
         /// فعال بودن عضو
         /// </summary>
-        public bool MembersStatus { get; private set; }
+        public bool MemberStatus { get; private set; } = true;
         /// <summary>
         /// مقدار بدهی
         /// </summary>
@@ -79,16 +80,53 @@ namespace Karimaneh.Domain.MemeberAgg
 
         public static Member Create(string fullName, NationalCode nationalCode,
             string fatherName, BankInfo bankInfo, string avatarName, bool loanRequest,
-            Guid walletId, DebtStatus debtStatus, Guid userId , PhoneNumber phoneNumber)
+            Guid walletId, DebtStatus debtStatus, Guid userId, PhoneNumber phoneNumber)
         {
             var member = new Member(fullName, nationalCode, fatherName
-                , bankInfo, avatarName, loanRequest, walletId, DebtStatus.NotHave , phoneNumber);
+                , bankInfo, avatarName, loanRequest, walletId, DebtStatus.NotHave, phoneNumber);
             member.AddDomainEvent(new MemberCreatedEvent(userId, member));
             return member;
         }
-        public void ChangeStatus(bool memberStatus)
+        public void Active(Guid userId, string oldValue)
         {
+            Guard.Against.NullOrEmpty(userId, nameof(userId));
+            Guard.Against.NullOrEmpty(oldValue, nameof(oldValue));
 
+            MemberStatus = true;
+            AddDomainEvent(new MemberUpdatedEvent(this, userId, oldValue));
+        }
+
+        public void DeActive(Guid userId, string oldValue)
+        {
+            Guard.Against.NullOrEmpty(userId, nameof(userId));
+            Guard.Against.NullOrEmpty(oldValue, nameof(oldValue));
+
+            MemberStatus = false;
+            AddDomainEvent(new MemberUpdatedEvent(this, userId, oldValue));
+        }
+        public Member Edit(
+        NationalCode nationalCode,
+        string fullName,
+        PhoneNumber phoneNumber,
+        BankInfo bankInfo,
+        bool memberStatus,
+        Guid userId,
+        string oldValue)
+        {
+            Guard.Against.Null(nationalCode, nameof(nationalCode));
+            Guard.Against.NullOrEmpty(fullName, nameof(fullName));
+            Guard.Against.Null(phoneNumber, nameof(phoneNumber));
+            Guard.Against.NullOrEmpty(userId, nameof(userId));
+            Guard.Against.NullOrEmpty(oldValue, nameof(oldValue));
+            Guard.Against.Null(bankInfo, nameof(bankInfo));
+
+            NationalCode = nationalCode;
+            FullName = fullName;
+            PhoneNumber = phoneNumber;
+            BankInfo = bankInfo;
+            MemberStatus = memberStatus;
+            AddDomainEvent(new MemberUpdatedEvent(this, userId, oldValue));
+            return this;
         }
         #region Validation
         private void ValueGuard(string fullName,

@@ -17,8 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Funds\Commands\" />
-    <Folder Include="Features\Members\Query\" />
+    <Folder Include="Features\Loans\Commands\" />
     <Folder Include="Features\Wallets\Commands\" />
   </ItemGroup>
 

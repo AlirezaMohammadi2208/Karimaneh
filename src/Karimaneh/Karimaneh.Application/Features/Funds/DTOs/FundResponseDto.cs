@@ -16,6 +16,6 @@ namespace Karimaneh.Application.Features.Funds.DTOs
         [JsonConverter(typeof(JsonStringEnumDisplayConverter<GuaranteeType>))]
         public GuaranteeType GuaranteeType { get; set; }
 
-        public BankInfo BankAccountInfo { get; set; }
+        public BankInfo BankInfo { get; set; }
     }
 }
