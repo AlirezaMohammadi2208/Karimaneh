@@ -2,11 +2,11 @@
 using Karimaneh.Application.Features.Requests.Command.ConfirmRequest;
 using Karimaneh.Application.Features.Requests.DTOs;
 using Karimaneh.Application.Features.Requests.Mapping;
+using Karimaneh.Application.Features.Requests.Query.GetAllRequest;
+using Karimaneh.Application.Features.Requests.Query.GetRequestById;
 using Karimaneh.WebApi.Extensions;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Karimaneh.WebApi.Controllers
 {
@@ -44,6 +44,21 @@ namespace Karimaneh.WebApi.Controllers
             await _mediator.Send(command, cancellationToken);
 
             return NoContent();
+        }
+        [HttpGet("{requestId}")]
+        public async Task<ActionResult<RequestByIdDto>> GetRequestById(Guid requestId)
+        {
+            var result = await _mediator.Send(new GetRequestByIdQuery(requestId));
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<RequestByIdDto>>> GetRequests(CancellationToken cancellationToken, int limit = 25, int offset = 0)
+        {
+            var request = await _mediator.Send(new GetAllRequestQuery { Limit = limit, Offset = offset }, cancellationToken);
+            return Ok(request);
         }
     }
 }

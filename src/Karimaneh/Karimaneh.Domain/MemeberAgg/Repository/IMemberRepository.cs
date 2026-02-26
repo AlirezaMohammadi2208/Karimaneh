@@ -9,5 +9,6 @@ namespace Karimaneh.Domain.MemeberAgg.Repository
     {
         Task<Member?> GetByWalletIdAsync(Guid walletId, CancellationToken cancellationToken);
         Task AddAsync(Member member, CancellationToken cancellationToken);
+        Task<Member?> GetMemberById(Guid memberId);
     }
 }

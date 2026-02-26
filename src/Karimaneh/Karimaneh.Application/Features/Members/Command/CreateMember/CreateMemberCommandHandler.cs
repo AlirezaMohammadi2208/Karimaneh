@@ -28,7 +28,7 @@ namespace Karimaneh.Application.Features.Members.Command.CreateMember
 
             var member = Member.Create(request.fullName, new NationalCode(request.NationalCode)
                 , request.FatherName, new BankInfo(request.AccountNumber, request.ShebaNumber, request.CardNumber)
-                , request.AvatarName, request.LoanRequest, wallet.Id, DebtStatus.NotHave , request.UserId);
+                , request.AvatarName, request.LoanRequest, wallet.Id, DebtStatus.NotHave , request.UserId , new PhoneNumber(request.phoneNumber));
             await _memberRepository.AddAsync(member, cancellationToken);
 
             //TODO : Password Bussiness

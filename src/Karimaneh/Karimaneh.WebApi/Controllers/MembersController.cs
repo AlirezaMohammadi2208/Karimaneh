@@ -30,7 +30,8 @@ namespace Karimaneh.WebApi.Controllers
                 requestDto.CardNumber,
                 requestDto.AvatarName,
                 requestDto.LoanRequest,
-                new Guid("D1807F77-7A35-4420-8EFE-7123EF396D99")
+                new Guid("D1807F77-7A35-4420-8EFE-7123EF396D99"),
+                requestDto.phoneNumber
                 );
             await _mediator.Send(command);
             return Ok();

@@ -18,7 +18,7 @@ namespace Karimaneh.Domain.MemeberAgg
     {
         private Member(string fullName, NationalCode nationalCode,
             string fatherName, BankInfo bankInfo, string avatarName, bool loanRequest,
-            Guid walletId, DebtStatus debtStatus)
+            Guid walletId, DebtStatus debtStatus, PhoneNumber phoneNumber)
         {
             ValueGuard(fullName, fatherName);
             FullName = fullName;
@@ -29,6 +29,7 @@ namespace Karimaneh.Domain.MemeberAgg
             LoanRequest = loanRequest;
             WalletId = walletId;
             DebtStatus = debtStatus;
+            PhoneNumber = phoneNumber;
         }
 
         private Member() { }//EF
@@ -36,6 +37,7 @@ namespace Karimaneh.Domain.MemeberAgg
         /// اسم
         /// </summary>
         public string FullName { get; private set; }
+        public PhoneNumber PhoneNumber { get; private set; }
         public NationalCode NationalCode { get; private set; }
         /// <summary>
         /// نام پدر
@@ -77,16 +79,16 @@ namespace Karimaneh.Domain.MemeberAgg
 
         public static Member Create(string fullName, NationalCode nationalCode,
             string fatherName, BankInfo bankInfo, string avatarName, bool loanRequest,
-            Guid walletId, DebtStatus debtStatus, Guid userId)
+            Guid walletId, DebtStatus debtStatus, Guid userId , PhoneNumber phoneNumber)
         {
             var member = new Member(fullName, nationalCode, fatherName
-                , bankInfo, avatarName, loanRequest, walletId, DebtStatus.NotHave);
+                , bankInfo, avatarName, loanRequest, walletId, DebtStatus.NotHave , phoneNumber);
             member.AddDomainEvent(new MemberCreatedEvent(userId, member));
             return member;
         }
         public void ChangeStatus(bool memberStatus)
         {
-            
+
         }
         #region Validation
         private void ValueGuard(string fullName,
@@ -101,5 +103,5 @@ namespace Karimaneh.Domain.MemeberAgg
         }
         #endregion
     }
-    
+
 }
